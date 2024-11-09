@@ -22,7 +22,7 @@ public:
 };
 
 class Uniform : public Generator {
-
+	/* Class for uniform sampling */
 public:
 	Uniform() {};
 	Uniform(int a) : Generator(a) { };
@@ -33,7 +33,7 @@ public:
 };
 
 class Normal : public Uniform {
-
+	/* Class for standard normal sampling */
 private:
 	double cdf(double x);
 	double pdf(double x);
@@ -49,6 +49,7 @@ public:
 };
 
 class ChiSquared : public Uniform {
+	/* Class for Chi-squared w/ degree of freedom 2 sampling */
 public:
 	ChiSquared() {};
 	ChiSquared(int a) : Uniform(a) {};
