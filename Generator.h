@@ -16,7 +16,7 @@ public:
 
 	virtual double generate() { return 0; };  // runtime polymorphism
 
-	std::vector<double> generateN(int N) ;   // generate N samples
+	vector<double> generateN(int N) ;   // generate N samples
 	
 	virtual ~Generator() {};
 };
@@ -40,6 +40,7 @@ private:
 	double Newton(double u_target, double x_0, double precision);
 
 public:
+
 	Normal() {};
 	Normal(int a) : Uniform(a) {};
 

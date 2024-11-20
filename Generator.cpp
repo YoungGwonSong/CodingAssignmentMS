@@ -1,7 +1,6 @@
 #define _USE_MATH_DEFINES   // for math constants
 
 #include <iostream>
-#include <cassert>
 #include <vector>
 #include <random>
 #include <cmath>
@@ -11,7 +10,7 @@
 using std::cout; using std::endl;
 using std::vector;
 
-std::vector<double> Generator::generateN(int N) {
+vector<double> Generator::generateN(int N) {
 	/*
 	generate N random variables,
 	print and return the vector	
@@ -21,7 +20,6 @@ std::vector<double> Generator::generateN(int N) {
 	double x;
 	for (int i = 0; i < N; ++i) {
 		x = generate();
-		while (isnan(x)) { x = generate(); };  // in case we get uncoverged newtonian
 		v.push_back(x);
 		cout << x << ((i != N - 1) ? ", " : "\n");
 	}
@@ -98,8 +96,12 @@ double Normal::generate() {
 	*/
 
 	double u = Uniform::generate();
-	double precision = pow(10, -accuracy_level - 2);
+	double precision = pow(10, -14);  // something close to the machine precision
 	double x = Newton(u, 0, precision);
+	while (isnan(x)) {
+		u = Uniform::generate();
+		x = Newton(u, 0, precision);
+	}
 	
 	return rnd(x, accuracy_level);
 }
@@ -128,17 +130,23 @@ double Normal::Newton(double u_target, double x_0, double precision) {
 	while (abs(u_target - u) > precision) {
 		x = (u_target - u) / Normal::pdf(x) + x;
 		u = Normal::cdf(x);
-		if (count++ > 30) return NAN; // in case it does not converge 
+		if (count++ > 20) return NAN; // when u = 0, this shouldn't converge.
 	}
-
+	
 	return x;
 }
 
 double rnd(double var, int accuracy_level) {
 	/* function for rounding */
+	double sign = 1.0;
+	if (var < 0) {
+		sign = -1.0;
+		var = var * sign;
+	}
+
 	double decimal = pow(10, accuracy_level);
 	double value = (int)(var * decimal + 0.5);
-	return (double)(value / decimal);
+	return (double)(value / decimal) * sign;
 }
 
 void write_csv(string filename, string colname, std::vector<double> vals) {
