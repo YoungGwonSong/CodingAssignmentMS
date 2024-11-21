@@ -32,7 +32,7 @@ public:
 	virtual ~Uniform() {};
 };
 
-class Normal : public Uniform {
+class Normal : public Generator {
 	/* Class for standard normal sampling */
 private:
 	double cdf(double x);
@@ -42,18 +42,18 @@ private:
 public:
 
 	Normal() {};
-	Normal(int a) : Uniform(a) {};
+	Normal(int a) : Generator(a) {};
 
 	double generate();
 
 	virtual ~Normal() {};
 };
 
-class ChiSquared : public Uniform {
+class ChiSquared : public Generator {
 	/* Class for Chi-squared w/ degree of freedom 2 sampling */
 public:
 	ChiSquared() {};
-	ChiSquared(int a) : Uniform(a) {};
+	ChiSquared(int a) : Generator(a) {};
 
 	double generate();
 

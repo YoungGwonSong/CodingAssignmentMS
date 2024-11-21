@@ -82,7 +82,9 @@ double ChiSquared::generate() {
 	We can generate uniform variable and transform it to Chi-Squared using this formula.
 	*/
 
-	double u = Uniform::generate();
+	Uniform u_gen(accuracy_level);
+	double u = u_gen.generate();
+
 	double x = -2 * log(1 - u);  // inverse cdf
 	return rnd(x, accuracy_level);
 }
@@ -94,12 +96,13 @@ double Normal::generate() {
 	But we know pdf, which is the derivative of cdf, 
 	so we can use Newton-Raphson root search algorithm.
 	*/
-
-	double u = Uniform::generate();
+	Uniform u_gen(accuracy_level);
+	double u = u_gen.generate();
+	
 	double precision = pow(10, -14);  // something close to the machine precision
 	double x = Newton(u, 0, precision);
 	while (isnan(x)) {
-		u = Uniform::generate();
+		u = u_gen.generate();
 		x = Newton(u, 0, precision);
 	}
 	
