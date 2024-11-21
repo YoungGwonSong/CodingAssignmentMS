@@ -16,7 +16,7 @@ public:
 
 	virtual double generate() { return 0; };  // runtime polymorphism
 
-	std::vector<double> generateN(int N) ;   // generate N samples
+	vector<double> generateN(int N) ;   // generate N samples
 	
 	virtual ~Generator() {};
 };
@@ -32,7 +32,7 @@ public:
 	virtual ~Uniform() {};
 };
 
-class Normal : public Uniform {
+class Normal : public Generator {
 	/* Class for standard normal sampling */
 private:
 	double cdf(double x);
@@ -40,19 +40,20 @@ private:
 	double Newton(double u_target, double x_0, double precision);
 
 public:
+
 	Normal() {};
-	Normal(int a) : Uniform(a) {};
+	Normal(int a) : Generator(a) {};
 
 	double generate();
 
 	virtual ~Normal() {};
 };
 
-class ChiSquared : public Uniform {
+class ChiSquared : public Generator {
 	/* Class for Chi-squared w/ degree of freedom 2 sampling */
 public:
 	ChiSquared() {};
-	ChiSquared(int a) : Uniform(a) {};
+	ChiSquared(int a) : Generator(a) {};
 
 	double generate();
 

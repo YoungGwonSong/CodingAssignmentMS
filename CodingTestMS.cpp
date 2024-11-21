@@ -2,7 +2,6 @@
 //
 
 #include <iostream>
-#include <cassert>
 #include <string>
 #include <vector>
 #include "Generator.h"
@@ -22,7 +21,7 @@ int main()
 
 	cout << "Type of Distribution (Uniform : u, Standard Normal : n, Chi-square : c) - choose from u|n|c: ";
 	do {
-		std::getline(cin, distType); cout << endl;
+		getline(cin, distType); cout << endl;
 		if (std::find(dist.begin(), dist.end(), distType) != dist.end()) break;
 		cout << "Not a valid input. Please choose again (u|n|c) : "  ;
 	} while (true);
@@ -58,8 +57,6 @@ int main()
 	vector<double> v = g_ptr->generateN(N);
 
 	cout << endl;
-
-	//write_csv("data.csv", "values", v);  // this is in case we want to save the sample
 
 	system("pause");
 	
